@@ -41,11 +41,38 @@ public class StringSetImpl implements StringSet {
             } else {
                 if ((it.left == null) && (it.right != null)) {
                     root = it.right;
+                } else {
+                    root = it.left;
+                    addElement(it.right);
+                }
+            }
+            return root.s;
+        }
+
+        public void addElement(Element e) {
+            Element it = root;
+            if (root == null) {
+                root = e;
+            }
+            while (it != null) {
+                if (e.s.compareTo(it.s)<0) {
+                    if (it.left == null){
+                        it = e;
+                    } else {
+                        it = it.left;
+                    }
+                } else {
+                    if (e.s.compareTo(it.s) > 0) {
+                        if(it.right == null){
+                            it = e;
+                        } else {
+                            it = it.right;
+                        }
+                    }
                 }
             }
         }
     }
-
     Element root;
 
 
@@ -97,10 +124,10 @@ public class StringSetImpl implements StringSet {
         if (root == null){
             throw new NoSuchElementException();
         }
-        if (it.left.s.equals(s)){
-            it.left.removeElement();
-        }
-        return null;
+       if (it.s.equals(s)){
+            it.removeRoot();
+       }
+        return it.s;
     }
 
     @Override
