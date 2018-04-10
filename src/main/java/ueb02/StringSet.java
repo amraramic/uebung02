@@ -20,7 +20,7 @@ interface StringSet {
 	 * @return Das entfernte Element
 	 * @throws java.util.NoSuchElementException Wenn das Element nicht vorhanden war.
 	 */
-	String remove(String s);
+	void remove(String s);
 
 	/**
 	 * Gibt die Größe des Sets zurück

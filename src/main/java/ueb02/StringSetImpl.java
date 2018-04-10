@@ -1,8 +1,5 @@
 package ueb02;
 
-import com.sun.xml.internal.bind.v2.model.core.EnumLeafInfo;
-
-import javax.xml.bind.Element;
 import java.util.NoSuchElementException;
 
 public class StringSetImpl implements StringSet {
@@ -55,15 +52,15 @@ public class StringSetImpl implements StringSet {
                 root = e;
             }
             while (it != null) {
-                if (e.s.compareTo(it.s)<0) {
-                    if (it.left == null){
+                if (e.s.compareTo(it.s) < 0) {
+                    if (it.left == null) {
                         it = e;
                     } else {
                         it = it.left;
                     }
                 } else {
                     if (e.s.compareTo(it.s) > 0) {
-                        if(it.right == null){
+                        if (it.right == null) {
                             it = e;
                         } else {
                             it = it.right;
@@ -72,7 +69,18 @@ public class StringSetImpl implements StringSet {
                 }
             }
         }
+
+        public void removeElement(Element p, Element e) {
+            if (e == p.left) {
+                p.left = null;
+            } else {
+                p.right = null;
+            }
+            addElement(e.left);
+            addElement(e.right);
+        }
     }
+
     Element root;
 
 
@@ -97,7 +105,8 @@ public class StringSetImpl implements StringSet {
 
                 }
             }
-        } return false;
+        }
+        return false;
     }
 
     @Override
@@ -116,25 +125,39 @@ public class StringSetImpl implements StringSet {
                     it = it.right;
                 }
             }
-        }  return false;
-    }
-    @Override
-    public String remove(String s) {
-        Element it = root;
-        if (root == null){
-            throw new NoSuchElementException();
         }
-       if (it.s.equals(s)){
-            it.removeRoot();
-       }
-        return it.s;
+        return false;
     }
 
     @Override
-    public int size() {
-            if (root == null){
-                return 0;
+    public void remove(String s) {
+        Element it = root;
+        if (root == null) {
+            throw new NoSuchElementException();
+        }
+        if (it.s.equals(s)) {
+            it.removeRoot();
+        }
+        while (it != null) {
+            if (root == null) {
+                while (it != null) {
+                    if (it.s.compareTo(s) < 0) {
+                        if (it.left != null && it.left.s == s)
+                            it.removeElement(it, it.left);
+                        it = it.left;
+                    } else {
+                        if (it.right != null && it.right.s == s)
+                            it.removeElement(it, it.right);
+                        it = it.right;
+                    }
+                }
+                throw new NoSuchElementException();
             }
-            return root.size();
+        }
+    }
+    public int size (){
+        return root.size();
     }
 }
+
+
