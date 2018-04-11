@@ -15,17 +15,16 @@ public class StringSetImpl implements StringSet {
         }
 
         public int size() {
-            Element it = root;
             int s = 1;
-            while (it != null) {
-                if (it.left != null) {
-                    s += it.left.size();
+
+                if (left != null) {
+                    s += left.size();
                 }
-                if (it.right != null) {
-                    s += it.right.size();
+                if (right != null) {
+                    s += right.size();
                 }
-            }
-            return it.size();
+
+            return s;
         }
 
         public String removeRoot() {
@@ -91,7 +90,7 @@ public class StringSetImpl implements StringSet {
             root = new Element(s, null, null);
             return true;
         }
-        Element it = root;
+        Element it=root;
         while (it != null) {
             if (s.compareTo(it.s) < 0) {
                 it = new Element(s, null, null);
@@ -138,23 +137,19 @@ public class StringSetImpl implements StringSet {
         if (it.s.equals(s)) {
             it.removeRoot();
         }
-        while (it != null) {
-            if (root == null) {
                 while (it != null) {
                     if (it.s.compareTo(s) < 0) {
-                        if (it.left != null && it.left.s == s)
+                        if (it.left != null && it.left.s.equals(s))
                             it.removeElement(it, it.left);
                         it = it.left;
                     } else {
-                        if (it.right != null && it.right.s == s)
+                        if (it.right != null && it.right.s.equals(s))
                             it.removeElement(it, it.right);
                         it = it.right;
                     }
                 }
                 throw new NoSuchElementException();
             }
-        }
-    }
     public int size (){
         return root.size();
     }
