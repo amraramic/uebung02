@@ -9,7 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class StringSetTest {
 	@Test
 	void testStringSet() {
-		StringSet impl = new StringSetImpl();
+		StringSet impl = new StringSetImpl() {
+		};
 		String str = "In Ulm und um Ulm und um Ulm herum";
 
 		for (String c : str.split(" ")) {
